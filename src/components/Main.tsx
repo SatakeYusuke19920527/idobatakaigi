@@ -1,9 +1,9 @@
 import React from 'react';
-
-const Main: React.FC<{}> = () => {
+import { MainPropType } from '../types/MainPropType';
+const Main: React.FC<MainPropType> = ({ name }) => {
   return (
     <div>
-      <h1>Mian</h1>
+      <h1>{name}</h1>
     </div>
   );
 };
