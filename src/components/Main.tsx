@@ -8,17 +8,16 @@ const useStyles = makeStyles({
     display: 'grid',
     height: '100vh',
     gridTemplateRows: '1fr auto',
-    margin: '30px'
-  }
-}
-);
+    margin: '20px',
+  },
+});
 
 const Main: React.FC<MainPropType> = ({ name }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <MessageList />
-      <MessageInputField />
+      <MessageInputField name={name} />
     </div>
   );
 };
