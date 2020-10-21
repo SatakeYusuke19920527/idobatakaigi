@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { SignInPropType } from '../types/SignInPropType';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -46,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 const SignIn: React.FC<SignInPropType> = ({ setName }) => {
   const classes = useStyles();
   const [string, setString] = useState<string>('')
-  const [isComposed, setIsComposed] = useState<boolean>(false)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -66,15 +66,6 @@ const SignIn: React.FC<SignInPropType> = ({ setName }) => {
             label="ニックネーム"
             autoFocus
             onChange={e => setString(e.target.value)}
-            onKeyDown={e => {
-              if (isComposed) return;
-              if (e.key === 'Enter') {
-                setName(e.target.value);
-                e.preventDefault();
-              }
-            }}
-            onCompositionStart={() => setIsComposed(true)}
-            onCompositionEnd={() => setIsComposed(false)}
           />
           <Button
             type="submit"
