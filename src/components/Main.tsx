@@ -27,9 +27,7 @@ const Main: React.FC<MainPropType> = ({ name }) => {
 
   return (
     <div className={classes.root}>
-      <MessageList
-        url={url}
-      />
+      <MessageList url={url} />
       <MessageInputField
         name={name}
         message={message}

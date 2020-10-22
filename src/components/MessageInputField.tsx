@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
@@ -8,52 +8,55 @@ import { makeStyles } from '@material-ui/core/styles';
 import { sendMessage } from '../firebase';
 
 const useStyles = makeStyles({
-    root: {
-        gridRow: 2,
-        margin: '26px',
-    },
+  root: {
+    gridRow: 2,
+    margin: '26px',
+  },
 });
 
 const MessageInputField: React.FC<{
-    name: string;
-    message: string;
-    setMessage: React.Dispatch<React.SetStateAction<string>>;
-    url: string;
+  name: string;
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  url: string;
 }> = (props) => {
-    const classes = useStyles();
-    const { name, message, setMessage, url } = props;
+  const classes = useStyles();
+  const { name, message, setMessage, url } = props;
+  const ref = useRef<HTMLDivElement>(null);
 
-    const handleClick = async () => {
-        await sendMessage(name, message);
-        setMessage(``);
-    };
+  const handleClick = async () => {
+    await sendMessage(name, message);
+    setMessage(``);
+    ref.current?.focus();
+  };
 
-    return (
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                <Grid item xs={1}>
-                    <Avatar src={url} />
-                </Grid>
-                <Grid item xs={10}>
-                    <TextField
-                        label="message"
-                        fullWidth={true}
-                        onChange={(e) => setMessage(e.target.value)}
-                        value={message}
-                    />
-                </Grid>
-                <Grid item xs={1}>
-                    <IconButton
-                        color="primary"
-                        onClick={handleClick}
-                        disabled={message === ``}
-                    >
-                        <SendIcon />
-                    </IconButton>
-                </Grid>
-            </Grid>
-        </div>
-    );
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={1}>
+          <Avatar src={url} />
+        </Grid>
+        <Grid item xs={10}>
+          <TextField
+            inputRef={ref}
+            label="message"
+            fullWidth={true}
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton
+            color="primary"
+            onClick={handleClick}
+            disabled={message === ``}
+          >
+            <SendIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
+    </div>
+  );
 };
 
 export default MessageInputField;
