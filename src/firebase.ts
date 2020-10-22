@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import "firebase/firestore"
+import { MessageListType } from './types/MessageListType'
 
 const {
   REACT_APP_FIREBASE_APIKEY,
@@ -27,13 +28,24 @@ const db = firebase.firestore();
 
 export const sendMessage = async (name: string, message: string) => {
   await db.collection("messages").add({
-      name,
-      message
-      })
+    name,
+    message
+  })
     .then(function (docRef) {
       console.log("send message ID: ", docRef.id);
     })
     .catch(function (error) {
       console.error("Error adding document: ", error);
     });
+}
+
+export const readMessage = async () => {
+  const messageList: MessageListType[] = []
+  await db.collection("messages").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const temp = { id: doc.id, name: doc.data().name, message: doc.data().message }
+      messageList.push(temp)
+    });
+  });
+  return messageList
 }
