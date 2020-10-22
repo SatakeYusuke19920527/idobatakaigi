@@ -27,8 +27,6 @@ const Main: React.FC<MainPropType> = ({ name }) => {
   return (
     <div className={classes.root}>
       <MessageList
-        name={name}
-        message={message}
         url={url}
       />
       <MessageInputField

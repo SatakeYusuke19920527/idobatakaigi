@@ -25,6 +25,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 const db = firebase.firestore();
+export const messagesRef = db.collection('messages')
 
 export const sendMessage = async (name: string, message: string) => {
   await db.collection("messages").add({
@@ -42,9 +43,9 @@ export const sendMessage = async (name: string, message: string) => {
 
 export const readMessage = async () => {
   const messageList: MessageListType[] = []
-  await db.collection("messages").get().then((querySnapshot) => {
+  await db.collection("messages").orderBy('createAt', 'asc').get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      const temp = { id: doc.id, name: doc.data().name, message: doc.data().message, createAt:doc.data().createAt }
+      const temp = { id: doc.id, name: doc.data().name, message: doc.data().message, createAt: doc.data().createAt }
       messageList.push(temp)
     });
   });
@@ -56,7 +57,7 @@ export const readMessageRealTimeUpdate = async () => {
   await db.collection("messages")
     .onSnapshot(function (querySnapshot) {
       querySnapshot.forEach(doc => {
-        const temp = { id: doc.id, name: doc.data().name, message: doc.data().message, createAt:doc.data().createAt }
+        const temp = { id: doc.id, name: doc.data().name, message: doc.data().message, createAt: doc.data().createAt }
         messageList.push(temp)
       })
     });
