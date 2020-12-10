@@ -27,6 +27,7 @@ firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore();
 export const messagesRef = db.collection('messages')
 
+//message送信
 export const sendMessage = async (name: string, message: string) => {
   await db.collection("messages").add({
     name,
@@ -41,6 +42,7 @@ export const sendMessage = async (name: string, message: string) => {
     });
 }
 
+// click時 message取得
 export const readMessage = async () => {
   const messageList: MessageListType[] = []
   await db.collection("messages").orderBy('createAt', 'asc').get().then((querySnapshot) => {
@@ -52,6 +54,7 @@ export const readMessage = async () => {
   return messageList
 }
 
+// realTime listen
 export const readMessageRealTimeUpdate = async () => {
   const messageList: MessageListType[] = []
   await db.collection("messages")

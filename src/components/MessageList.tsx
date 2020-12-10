@@ -43,7 +43,6 @@ const MessageList: React.FC<{ url: string }> = (props) => {
         {messages.length !== 0 &&
           messages.map((message, index) => {
             const url = generateGravatar(message.name);
-
             return messages.length === index + 1 ? (
               <ListItem divider={true} key={index}>
                 <ListItemAvatar>
